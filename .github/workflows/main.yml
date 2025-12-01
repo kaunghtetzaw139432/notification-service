@@ -1,0 +1,35 @@
+name: Notification-app CI Build and Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    name: Build and Deploy Notification-App
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ Checkout source code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # ✅ Setup Java (JDK 21)
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: "corretto"
+          java-version: 17
+
+      # ✅ Run Unit Tests
+      - name: Unit Tests
+        run: mvn -B test --file pom.xml
+
+      # ✅ Build application with Maven
+      - name: Build the application
+        run: |
+          mvn clean
+          mvn -B package --file pom.xml
+
+    
